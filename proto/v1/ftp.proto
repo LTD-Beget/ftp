@@ -1,0 +1,50 @@
+syntax = 'proto3';
+
+package beget.ftp.v1.structures;
+
+import "ftp/proto/v1/structures.proto";
+import "google/api/annotations.proto";
+
+service FtpService {
+//    rpc getList {}
+}
+
+message getAccountListRequest {
+
+}
+
+message getAccountListResponse {
+
+}
+
+message AddAccountRequest {
+
+}
+
+message AddAccountResponse {
+
+}
+
+message RemoveAccountRequest {
+
+}
+
+message RemoveAccountResponse {
+
+}
+
+message ToggleSshRequest {
+
+}
+
+message ToggleSshResponse {
+
+}
+
+message SetPasswordRequest {
+
+}
+
+message SetPasswordResponse {
+
+}

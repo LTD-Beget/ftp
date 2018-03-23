@@ -1,0 +1,10 @@
+syntax = 'proto3';
+
+package beget.ftp.v1.structures;
+
+import "site/proto/v1/structures.proto";
+
+message FtpAccount {
+    uint32 id = 1;
+    string path = 2;
+}
