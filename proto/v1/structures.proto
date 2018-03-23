@@ -2,8 +2,6 @@ syntax = 'proto3';
 
 package beget.ftp.v1.structures;
 
-import "site/proto/v1/structures.proto";
-
 message FtpAccount {
     string login = 1;
     string homedir = 2;

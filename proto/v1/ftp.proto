@@ -7,39 +7,39 @@ import "google/api/annotations.proto";
 
 service FtpService {
     rpc findAll (FindAllRequest) returns (FindAllResponse) {
-        option: (google.api.http) = {
+        option (google.api.http) = {
             get: "/v1/ftp/list/all"
         };
     }
 
     rpc createAccount (CreateAccountRequest) returns (AddAccountResponse) {
-        option: (google.api.http) = {
-            post: "/v1/ftp/create",
+        option (google.api.http) = {
+            post: "/v1/ftp/create"
             body: "*"
         };
     }
 
     rpc deleteAccount (RemoveAccountRequest) returns (RemoveAccountResponse) {
-        option: (google.api.http) = {
+        option (google.api.http) = {
             delete: "/v1/ftp/delete/{id}"
         };
     }
 
     rpc changePassword (ChangePasswordRequest) returns (ChangePasswordResponse) {
-        option: (google.api.http) = {
-            patch: "/v1/ftp/changePassword",
+        option (google.api.http) = {
+            patch: "/v1/ftp/changePassword"
             body: "*"
         };
     }
 
     rpc enableSsh (SetSshAccessEnabled) returns (SetSshAccessEnabledResponse) {
-        option: (google.api.http) = {
+        option (google.api.http) = {
             post: "/v1/ftp/enableSsh/{id}"
         };
     }
 
     rpc disableSsh (SetSshAccessDisabled) returns (SetSshAccessDisabledResponse) {
-        option: (google.api.http) = {
+        option (google.api.http) = {
             post: "/v1/ftp/disableSsh/{id}"
         };
     }
@@ -48,7 +48,7 @@ service FtpService {
 message FindAllRequest {}
 
 message FindAllResponse {
-    repeated structures.FtpAccount = 1;
+    repeated structures.FtpAccount ftp_account = 1;
 }
 
 message CreateAccountRequest {
@@ -58,7 +58,7 @@ message CreateAccountRequest {
 }
 
 message AddAccountResponse {
-    structures.FtpAccount = 1;
+    structures.FtpAccount ftp_account = 1;
 }
 
 message RemoveAccountRequest {
@@ -100,14 +100,14 @@ message SetSshAccessDisabled {
 
 message SetSshAccessEnabledResponse {
     oneof result {
-        structures.FtpAccount = 1;
+        structures.FtpAccount ftp_account = 1;
         Error error = 2;
     }
 }
 
 message SetSshAccessDisabledResponse {
     oneof result {
-        structures.FtpAccount = 1;
+        structures.FtpAccount ftp_account = 1;
         Error error = 2;
     }
 }
