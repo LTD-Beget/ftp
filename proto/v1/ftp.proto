@@ -8,7 +8,25 @@ import "google/api/annotations.proto";
 service FtpService {
     rpc getList (GetAccountListRequest) returns (GetAccountListResponse) {
         option: (google.api.http) = {
-            get: "/v1/ftp/getList"
+            get: "/v1/ftp/list"
+        };
+    }
+
+    rpc addAccount (AddAccountRequest) returns (AddAccountResponse) {
+        option: (google.api.http) = {
+            get: "/v1/ftp/add"
+        };
+    }
+
+    rpc deleteAccount (RemoveAccountRequest) returns (RemoveAccountResponse) {
+        option: (google.api.http) = {
+            get: "/v1/ftp/delete"
+        };
+    }
+
+    rpc changePassword (SetPasswordRequest) returns (SetPasswordResponse) {
+        option: (google.api.http) = {
+            get: "/v1/ftp/changePassword"
         };
     }
 }
