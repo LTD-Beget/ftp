@@ -14,7 +14,7 @@ message GetSiteListRequest {
 }
 
 message GetSiteListResponse {
-    repeated beget.site.v1.structures.Site = 1;
+    repeated string sites = 1;
 }
 
 message getAccountListRequest {
