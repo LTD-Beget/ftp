@@ -92,6 +92,7 @@ message SetPasswordResponse {
 message Error {
     enum Code {
         INTERNAL_ERROR = 0;
+        NOT_FOUND = 1;
     }
 
     string message = 1;
