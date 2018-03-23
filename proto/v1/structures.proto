@@ -5,7 +5,6 @@ package beget.ftp.v1.structures;
 import "site/proto/v1/structures.proto";
 
 message FtpAccount {
-    uint32 id = 1;
-    string path = 2;
-    bool ssh_enabled = 3;
+    string login = 1;
+    string homedir = 2;
 }
