@@ -6,40 +6,52 @@ import "ftp/proto/v1/structures.proto";
 import "google/api/annotations.proto";
 
 service FtpService {
-    rpc getList (GetAccountListRequest) returns (GetAccountListResponse) {
+    rpc findAll (FindAllRequest) returns (FindAllResponse) {
         option: (google.api.http) = {
-            get: "/v1/ftp/list"
+            get: "/v1/ftp/list/all"
         };
     }
 
-    rpc addAccount (AddAccountRequest) returns (AddAccountResponse) {
+    rpc createAccount (CreateAccountRequest) returns (AddAccountResponse) {
         option: (google.api.http) = {
-            get: "/v1/ftp/add"
+            post: "/v1/ftp/create",
+            body: "*"
         };
     }
 
     rpc deleteAccount (RemoveAccountRequest) returns (RemoveAccountResponse) {
         option: (google.api.http) = {
-            get: "/v1/ftp/delete"
+            delete: "/v1/ftp/delete/{id}"
         };
     }
 
-    rpc changePassword (SetPasswordRequest) returns (SetPasswordResponse) {
+    rpc changePassword (ChangePasswordRequest) returns (ChangePasswordResponse) {
         option: (google.api.http) = {
-            get: "/v1/ftp/changePassword"
+            patch: "/v1/ftp/changePassword",
+            body: "*"
+        };
+    }
+
+    rpc enableSsh (SetSshAccessEnabled) returns (SetSshAccessEnabledResponse) {
+        option: (google.api.http) = {
+            post: "/v1/ftp/enableSsh/{id}"
+        };
+    }
+
+    rpc disableSsh (SetSshAccessDisabled) returns (SetSshAccessDisabledResponse) {
+        option: (google.api.http) = {
+            post: "/v1/ftp/disableSsh/{id}"
         };
     }
 }
 
-message GetAccountListRequest {
+message FindAllRequest {}
 
-}
-
-message GetAccountListResponse {
+message FindAllResponse {
     repeated structures.FtpAccount = 1;
 }
 
-message AddAccountRequest {
+message CreateAccountRequest {
     string suffix = 1;
     string password = 2;
     string path = 3;
@@ -50,7 +62,7 @@ message AddAccountResponse {
 }
 
 message RemoveAccountRequest {
-    uint32 suffix = 1;
+    uint32 id = 1;
 }
 
 message RemoveAccountResponse {
@@ -63,12 +75,12 @@ message RemoveAccountResponse {
     }
 }
 
-message SetPasswordRequest {
+message ChangePasswordRequest {
     uint32 account_id = 1;
     string password = 2;
 }
 
-message SetPasswordResponse {
+message ChangePasswordResponse {
     oneof result {
         Success success = 1;
         Error error = 2;
@@ -78,10 +90,34 @@ message SetPasswordResponse {
     }
 }
 
+message SetSshAccessEnabled {
+    uint32 suffix = 1;
+}
+
+message SetSshAccessDisabled {
+    uint32 suffix = 1;
+}
+
+message SetSshAccessEnabledResponse {
+    oneof result {
+        structures.FtpAccount = 1;
+        Error error = 2;
+    }
+}
+
+message SetSshAccessDisabledResponse {
+    oneof result {
+        structures.FtpAccount = 1;
+        Error error = 2;
+    }
+}
+
 message Error {
     enum Code {
         INTERNAL_ERROR = 0;
         NOT_FOUND = 1;
+        //На фрихостинге SSH недоступен
+        UNAVAILABLE = 2;
     }
 
     string message = 1;
