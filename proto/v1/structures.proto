@@ -7,4 +7,5 @@ import "site/proto/v1/structures.proto";
 message FtpAccount {
     uint32 id = 1;
     string path = 2;
+    bool ssh_enabled = 3;
 }

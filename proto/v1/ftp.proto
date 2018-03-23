@@ -6,53 +6,75 @@ import "ftp/proto/v1/structures.proto";
 import "google/api/annotations.proto";
 
 service FtpService {
-//    rpc getList {}
+    rpc getList (GetAccountListRequest) returns (GetAccountListResponse) {
+        option: (google.api.http) = {
+            get: "/v1/ftp/getList"
+        };
+    }
 }
 
-message GetSiteListRequest {
-
-}
-
-message GetSiteListResponse {
-    repeated string sites = 1;
-}
-
-message getAccountListRequest {
+message GetAccountListRequest {
 
 }
 
-message getAccountListResponse {
-
+message GetAccountListResponse {
+    repeated structures.FtpAccount = 1;
 }
 
 message AddAccountRequest {
-
+    string suffix = 1;
+    string password = 2;
+    string path = 3;
 }
 
 message AddAccountResponse {
-
+    structures.FtpAccount = 1;
 }
 
 message RemoveAccountRequest {
-
+    uint32 suffix = 1;
 }
 
 message RemoveAccountResponse {
+    oneof result {
+        Success success = 1;
+        Error error = 2;
+    }
 
+    message Success {
+    }
 }
 
 message ToggleSshRequest {
-
+    uint32 suffix = 1;
 }
 
 message ToggleSshResponse {
-
+    oneof result {
+        structures.FtpAccount = 1;
+        Error error = 2;
+    }
 }
 
 message SetPasswordRequest {
-
+    uint32 account_id = 1;
+    string password = 2;
 }
 
 message SetPasswordResponse {
+    oneof result {
+        Success success = 1;
+        Error error = 2;
+    }
 
+    message Success {
+    }
+}
+
+message Error {
+    enum Code {
+        INTERNAL_ERROR = 0;
+    }
+
+    string message = 1;
 }
