@@ -63,17 +63,6 @@ message RemoveAccountResponse {
     }
 }
 
-message ToggleSshRequest {
-    uint32 suffix = 1;
-}
-
-message ToggleSshResponse {
-    oneof result {
-        structures.FtpAccount = 1;
-        Error error = 2;
-    }
-}
-
 message SetPasswordRequest {
     uint32 account_id = 1;
     string password = 2;
