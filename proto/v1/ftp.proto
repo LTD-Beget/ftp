@@ -9,6 +9,14 @@ service FtpService {
 //    rpc getList {}
 }
 
+message GetSiteListRequest {
+
+}
+
+message GetSiteListResponse {
+    repeated beget.site.v1.structures.Site = 1;
+}
+
 message getAccountListRequest {
 
 }
