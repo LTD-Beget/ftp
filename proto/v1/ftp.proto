@@ -5,13 +5,17 @@ package beget.ftp.v1.structures;
 import "ftp/proto/v1/structures.proto";
 import "google/api/annotations.proto";
 
+//Сервис для управления FTP-аккаунтами
+//Все методы принимают JWT в заголовке "Authotization: Bearer"
 service FtpService {
+    //Получение списка FTP-аккаунтов пользователя
     rpc findAll (FindAllRequest) returns (FindAllResponse) {
         option (google.api.http) = {
             get: "/v1/ftp/list/all"
         };
     }
 
+    //Создание нового FTP-аккаунта
     rpc createAccount (CreateAccountRequest) returns (AddAccountResponse) {
         option (google.api.http) = {
             post: "/v1/ftp/create"
@@ -19,12 +23,14 @@ service FtpService {
         };
     }
 
+    //Удаление FTP-аккаунта
     rpc deleteAccount (RemoveAccountRequest) returns (RemoveAccountResponse) {
         option (google.api.http) = {
             delete: "/v1/ftp/delete/{id}"
         };
     }
 
+    //Изменение пароля FTP-аккаунта
     rpc changePassword (ChangePasswordRequest) returns (ChangePasswordResponse) {
         option (google.api.http) = {
             patch: "/v1/ftp/changePassword"
@@ -32,20 +38,23 @@ service FtpService {
         };
     }
 
-    rpc enableSsh (SetSshAccessEnabled) returns (SetSshAccessEnabledResponse) {
+    //Разрешает SSH-доступ для FTP-аккаунта
+    rpc enableSsh (SetSshAccessEnabledRequest) returns (SetSshAccessEnabledResponse) {
         option (google.api.http) = {
             post: "/v1/ftp/enableSsh/{id}"
         };
     }
 
-    rpc disableSsh (SetSshAccessDisabled) returns (SetSshAccessDisabledResponse) {
+    //Отключает SSH-доступ для FTP-аккаунта
+    rpc disableSsh (SetSshAccessDisabledRequest) returns (SetSshAccessDisabledResponse) {
         option (google.api.http) = {
             post: "/v1/ftp/disableSsh/{id}"
         };
     }
 }
 
-message FindAllRequest {}
+message FindAllRequest {
+}
 
 message FindAllResponse {
     repeated structures.FtpAccount ftp_account = 1;
@@ -62,7 +71,10 @@ message AddAccountResponse {
 }
 
 message RemoveAccountRequest {
-    uint32 id = 1;
+    oneof condition {
+        uint32 id = 1;
+        string suffix = 2;
+    }
 }
 
 message RemoveAccountResponse {
@@ -76,8 +88,12 @@ message RemoveAccountResponse {
 }
 
 message ChangePasswordRequest {
-    uint32 account_id = 1;
-    string password = 2;
+    oneof condition {
+        uint32 id = 1;
+        string suffix = 2;
+    }
+
+    string password = 3;
 }
 
 message ChangePasswordResponse {
@@ -90,12 +106,18 @@ message ChangePasswordResponse {
     }
 }
 
-message SetSshAccessEnabled {
-    uint32 suffix = 1;
+message SetSshAccessEnabledRequest {
+    oneof condition {
+        uint32 id = 1;
+        string suffix = 2;
+    }
 }
 
-message SetSshAccessDisabled {
-    uint32 suffix = 1;
+message SetSshAccessDisabledRequest {
+    oneof condition {
+        uint32 id = 1;
+        string suffix = 2;
+    }
 }
 
 message SetSshAccessEnabledResponse {
