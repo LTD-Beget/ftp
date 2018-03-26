@@ -1,0 +1,13 @@
+syntax = 'proto3';
+
+package beget.ftp.v1.structures;
+
+message FtpAccount {
+    uint32 id = 1;
+    string login = 2;
+    //Путь к домашнему каталогу FTP-аккаунта
+    //Указывается относительно домашнего каталога пользователя
+    //example: "/site/public_html"
+    string home_path = 3;
+    bool ssh_status = 4;
+}

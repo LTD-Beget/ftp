@@ -1,0 +1,183 @@
+syntax = 'proto3';
+
+package beget.ftp.v1.ftp;
+
+import "ftp/proto/v1/structures.proto";
+import "google/api/annotations.proto";
+
+//Сервис для управления FTP-аккаунтами
+//Все методы принимают JWT в заголовке Authorization.
+//Общий вид: "Authorization: Bearer {JWT}"
+service FtpService {
+    //Получение списка FTP-аккаунтов пользователя
+    rpc findAll (FindAllRequest) returns (FindAllResponse) {
+        option (google.api.http) = {
+            get: "/v1/ftp/list/all"
+        };
+    }
+
+    //Создание нового FTP-аккаунта
+    rpc createAccount (CreateAccountRequest) returns (AddAccountResponse) {
+        option (google.api.http) = {
+            post: "/v1/ftp/create"
+            body: "*"
+        };
+    }
+
+    //Удаление FTP-аккаунта
+    rpc deleteAccount (RemoveAccountRequest) returns (RemoveAccountResponse) {
+        option (google.api.http) = {
+            delete: "/v1/ftp/delete/{id}"
+        };
+    }
+
+    //Изменение пароля FTP-аккаунта
+    rpc changePassword (ChangePasswordRequest) returns (ChangePasswordResponse) {
+        option (google.api.http) = {
+            post: "/v1/ftp/changePassword/{id}"
+            body: "*"
+        };
+    }
+
+    //Разрешает SSH-доступ для FTP-аккаунта
+    rpc enableSsh (EnableSshRequest) returns (EnableSshResponse) {
+        option (google.api.http) = {
+            post: "/v1/ftp/enableSsh/{id}"
+        };
+    }
+
+    //Отключает SSH-доступ для FTP-аккаунта
+    rpc disableSsh (DisableSshRequest) returns (DisableSshResponse) {
+        option (google.api.http) = {
+            post: "/v1/ftp/disableSsh/{id}"
+        };
+    }
+}
+
+message FindAllRequest {
+}
+
+message FindAllResponse {
+    repeated structures.FtpAccount ftp_account = 1;
+}
+
+message CreateAccountRequest {
+    string suffix = 1;
+    string password = 2;
+    string path = 3;
+}
+
+message AddAccountResponse {
+    oneof result {
+        structures.FtpAccount ftp_account = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+            PASSWORD_TOO_SHORT = 1;
+            PASSWORD_INCORRECT = 2;
+            PASSWORD_TOO_WEAK = 3;
+            ALREADY_EXISTS = 4;
+            SUFFIX_EMPTY = 5;
+            SUFFIX_TOO_LONG = 6;
+            SUFFIX_INVALID = 7;
+            PATH_INVALID = 8;
+        }
+    }
+}
+
+message RemoveAccountRequest {
+    uint32 id = 1;
+}
+
+message RemoveAccountResponse {
+    oneof result {
+        Success success = 1;
+        Error error = 2;
+    }
+
+    message Success {
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+        }
+    }
+}
+
+message ChangePasswordRequest {
+    uint32 id = 1;
+    string password = 2;
+}
+
+message ChangePasswordResponse {
+    oneof result {
+        Success success = 1;
+        Error error = 2;
+    }
+
+    message Success {
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+            PASSWORD_TOO_SHORT = 1;
+            PASSWORD_INCORRECT = 2;
+            PASSWORD_TOO_WEAK = 3;
+        }
+    }
+}
+
+message EnableSshRequest {
+    uint32 id = 1;
+}
+
+message EnableSshResponse {
+    oneof result {
+        structures.FtpAccount ftp_account = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+            NOT_AVAILABLE = 1;
+        }
+    }
+}
+
+message DisableSshRequest {
+    uint32 id = 1;
+}
+
+message DisableSshResponse {
+    oneof result {
+        structures.FtpAccount ftp_account = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+        }
+    }
+}
