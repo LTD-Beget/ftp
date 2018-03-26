@@ -9,5 +9,5 @@ message FtpAccount {
     //Указывается относительно домашнего каталога пользователя
     //example: "/site/public_html"
     string home_path = 3;
-    bool ssh_enabled = 4;
+    bool ssh_status = 4;
 }

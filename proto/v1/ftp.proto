@@ -40,14 +40,14 @@ service FtpService {
     }
 
     //Разрешает SSH-доступ для FTP-аккаунта
-    rpc enableSsh (SetSshAccessEnabledRequest) returns (SetSshAccessEnabledResponse) {
+    rpc enableSsh (SetSshAccessEnableRequest) returns (SetSshAccessEnableResponse) {
         option (google.api.http) = {
             post: "/v1/ftp/enableSsh/{id}"
         };
     }
 
     //Отключает SSH-доступ для FTP-аккаунта
-    rpc disableSsh (SetSshAccessDisabledRequest) returns (SetSshAccessDisabledResponse) {
+    rpc disableSsh (SetSshAccessDisableRequest) returns (SetSshAccessDisableResponse) {
         option (google.api.http) = {
             post: "/v1/ftp/disableSsh/{id}"
         };
@@ -79,19 +79,16 @@ message AddAccountResponse {
 
         enum Code {
             INTERNAL_ERROR = 0;
-            TOO_SHORT_PASSWORD = 1;
+            PASSWORD_TOO_SHORT = 1;
             INCORRECT_PASSWORD = 2;
-            TOO_WEAK_PASSWORD = 3;
+            PASSWORD_TOO_WEAK = 3;
             ALREADY_EXISTS = 4;
         }
     }
 }
 
 message RemoveAccountRequest {
-    oneof condition {
-        uint32 id = 1;
-        string suffix = 2;
-    }
+    uint32 id = 1;
 }
 
 message RemoveAccountResponse {
@@ -104,21 +101,18 @@ message RemoveAccountResponse {
     }
 
     message Error {
+        Code code = 1;
+        string message = 2;
+
         enum Code {
             INTERNAL_ERROR = 0;
         }
-
-        string message = 1;
     }
 }
 
 message ChangePasswordRequest {
-    oneof condition {
-        uint32 id = 1;
-        string suffix = 2;
-    }
-
-    string password = 3;
+    uint32 id = 1;
+    string password = 2;
 }
 
 message ChangePasswordResponse {
@@ -136,28 +130,22 @@ message ChangePasswordResponse {
 
         enum Code {
             INTERNAL_ERROR = 0;
-            TOO_SHORT_PASSWORD = 1;
+            PASSWORD_TOO_SHORT = 1;
             INCORRECT_PASSWORD = 2;
-            TOO_WEAK_PASSWORD = 3;
+            PASSWORD_TOO_WEAK = 3;
         }
     }
 }
 
-message SetSshAccessEnabledRequest {
-    oneof condition {
-        uint32 id = 1;
-        string suffix = 2;
-    }
+message SetSshAccessEnableRequest {
+    uint32 id = 1;
 }
 
-message SetSshAccessDisabledRequest {
-    oneof condition {
-        uint32 id = 1;
-        string suffix = 2;
-    }
+message SetSshAccessDisableRequest {
+    uint32 id = 1;
 }
 
-message SetSshAccessEnabledResponse {
+message SetSshAccessEnableResponse {
     oneof result {
         structures.FtpAccount ftp_account = 1;
         Error error = 2;
@@ -169,22 +157,23 @@ message SetSshAccessEnabledResponse {
 
         enum Code {
             INTERNAL_ERROR = 0;
-            UNAVAILABLE_FOR_FREE_HOSTING = 1;
+            NOT_AVAILABLE = 1;
         }
     }
 }
 
-message SetSshAccessDisabledResponse {
+message SetSshAccessDisableResponse {
     oneof result {
         structures.FtpAccount ftp_account = 1;
         Error error = 2;
     }
 
     message Error {
+        Code code = 1;
+        string message = 2;
+
         enum Code {
             INTERNAL_ERROR = 0;
         }
-
-        string message = 1;
     }
 }
