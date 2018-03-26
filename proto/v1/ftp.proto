@@ -1,12 +1,12 @@
 syntax = 'proto3';
 
-package beget.ftp.v1.structures;
+package beget.ftp.v1.ftp;
 
 import "ftp/proto/v1/structures.proto";
 import "google/api/annotations.proto";
 
 //Сервис для управления FTP-аккаунтами
-//Все методы принимают JWT в заголовке "Authotization: Bearer"
+//Все методы принимают JWT в заголовке "Authotization: Bearer {JWT}"
 service FtpService {
     //Получение списка FTP-аккаунтов пользователя
     rpc findAll (FindAllRequest) returns (FindAllResponse) {
@@ -125,6 +125,16 @@ message SetSshAccessEnabledResponse {
         structures.FtpAccount ftp_account = 1;
         Error error = 2;
     }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+            UNAVAILABLE_FOR_FREE_HOSTING = 1;
+        }
+    }
 }
 
 message SetSshAccessDisabledResponse {
@@ -137,10 +147,5 @@ message SetSshAccessDisabledResponse {
 message Error {
     enum Code {
         INTERNAL_ERROR = 0;
-        NOT_FOUND = 1;
-        //На фрихостинге SSH недоступен
-        UNAVAILABLE = 2;
     }
-
-    string message = 1;
 }
