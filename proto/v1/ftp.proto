@@ -6,7 +6,8 @@ import "ftp/proto/v1/structures.proto";
 import "google/api/annotations.proto";
 
 //Сервис для управления FTP-аккаунтами
-//Все методы принимают JWT в заголовке "Authorization: Bearer {JWT}"
+//Все методы принимают JWT в заголовке Authorization.
+//Пример заголовка: "Authorization: Bearer {JWT}"
 service FtpService {
     //Получение списка FTP-аккаунтов пользователя
     rpc findAll (FindAllRequest) returns (FindAllResponse) {
@@ -57,7 +58,14 @@ message FindAllRequest {
 }
 
 message FindAllResponse {
-    repeated structures.FtpAccount ftp_account = 1;
+    oneof result {
+        Success success = 1;
+        Error error = 2;
+    }
+
+    message Success {
+        repeated structures.FtpAccount ftp_account = 1;
+    }
 }
 
 message CreateAccountRequest {
