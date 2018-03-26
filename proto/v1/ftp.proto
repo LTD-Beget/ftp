@@ -34,7 +34,7 @@ service FtpService {
     //Изменение пароля FTP-аккаунта
     rpc changePassword (ChangePasswordRequest) returns (ChangePasswordResponse) {
         option (google.api.http) = {
-            patch: "/v1/ftp/changePassword"
+            post: "/v1/ftp/changePassword/{id}"
             body: "*"
         };
     }
@@ -58,14 +58,7 @@ message FindAllRequest {
 }
 
 message FindAllResponse {
-    oneof result {
-        Success success = 1;
-        Error error = 2;
-    }
-
-    message Success {
-        repeated structures.FtpAccount ftp_account = 1;
-    }
+    repeated structures.FtpAccount ftp_account = 1;
 }
 
 message CreateAccountRequest {
