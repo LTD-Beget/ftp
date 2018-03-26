@@ -71,7 +71,19 @@ message AddAccountResponse {
     oneof result {
         structures.FtpAccount ftp_account = 1;
         Error error = 2;
-        PasswordError password_error = 3;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+            TOO_SHORT_PASSWORD = 1;
+            INCORRECT_PASSWORD = 2;
+            TOO_WEAK_PASSWORD = 3;
+            ALREADY_EXISTS = 4;
+        }
     }
 }
 
@@ -90,6 +102,14 @@ message RemoveAccountResponse {
 
     message Success {
     }
+
+    message Error {
+        enum Code {
+            INTERNAL_ERROR = 0;
+        }
+
+        string message = 1;
+    }
 }
 
 message ChangePasswordRequest {
@@ -104,10 +124,22 @@ message ChangePasswordRequest {
 message ChangePasswordResponse {
     oneof result {
         Success success = 1;
-        PasswordError error = 2;
+        Error error = 2;
     }
 
     message Success {
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+            TOO_SHORT_PASSWORD = 1;
+            INCORRECT_PASSWORD = 2;
+            TOO_WEAK_PASSWORD = 3;
+        }
     }
 }
 
@@ -147,24 +179,12 @@ message SetSshAccessDisabledResponse {
         structures.FtpAccount ftp_account = 1;
         Error error = 2;
     }
-}
 
-message Error {
-    enum Code {
-        INTERNAL_ERROR = 0;
-    }
+    message Error {
+        enum Code {
+            INTERNAL_ERROR = 0;
+        }
 
-    string message = 1;
-}
-
-message PasswordError {
-    Code code = 1;
-    string message = 2;
-
-    enum Code {
-        INTERNAL_ERROR = 0;
-        TOO_SHORT_PASSWORD = 1;
-        INCORRECT_PASSWORD = 2;
-        TOO_WEAK_PASSWORD = 3;
+        string message = 1;
     }
 }
