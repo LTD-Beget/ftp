@@ -40,14 +40,14 @@ service FtpService {
     }
 
     //Разрешает SSH-доступ для FTP-аккаунта
-    rpc enableSsh (SetSshAccessEnableRequest) returns (SetSshAccessEnableResponse) {
+    rpc enableSsh (EnableSshRequest) returns (EnableSshResponse) {
         option (google.api.http) = {
             post: "/v1/ftp/enableSsh/{id}"
         };
     }
 
     //Отключает SSH-доступ для FTP-аккаунта
-    rpc disableSsh (SetSshAccessDisableRequest) returns (SetSshAccessDisableResponse) {
+    rpc disableSsh (DisableSshRequest) returns (DisableSshResponse) {
         option (google.api.http) = {
             post: "/v1/ftp/disableSsh/{id}"
         };
@@ -137,15 +137,11 @@ message ChangePasswordResponse {
     }
 }
 
-message SetSshAccessEnableRequest {
+message EnableSshRequest {
     uint32 id = 1;
 }
 
-message SetSshAccessDisableRequest {
-    uint32 id = 1;
-}
-
-message SetSshAccessEnableResponse {
+message EnableSshResponse {
     oneof result {
         structures.FtpAccount ftp_account = 1;
         Error error = 2;
@@ -162,7 +158,11 @@ message SetSshAccessEnableResponse {
     }
 }
 
-message SetSshAccessDisableResponse {
+message DisableSshRequest {
+    uint32 id = 1;
+}
+
+message DisableSshResponse {
     oneof result {
         structures.FtpAccount ftp_account = 1;
         Error error = 2;
