@@ -87,7 +87,6 @@ message AddAccountResponse {
             SUFFIX_TOO_LONG = 6;
             SUFFIX_INVALID = 7;
             PATH_INVALID = 8;
-            PATH_EMPTY = 9;
         }
     }
 }
