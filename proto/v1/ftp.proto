@@ -80,9 +80,14 @@ message AddAccountResponse {
         enum Code {
             INTERNAL_ERROR = 0;
             PASSWORD_TOO_SHORT = 1;
-            INCORRECT_PASSWORD = 2;
+            PASSWORD_INCORRECT = 2;
             PASSWORD_TOO_WEAK = 3;
             ALREADY_EXISTS = 4;
+            SUFFIX_EMPTY = 5;
+            SUFFIX_TOO_LONG = 6;
+            SUFFIX_INVALID = 7;
+            PATH_INVALID = 8;
+            PATH_EMPTY = 9;
         }
     }
 }
@@ -131,7 +136,7 @@ message ChangePasswordResponse {
         enum Code {
             INTERNAL_ERROR = 0;
             PASSWORD_TOO_SHORT = 1;
-            INCORRECT_PASSWORD = 2;
+            PASSWORD_INCORRECT = 2;
             PASSWORD_TOO_WEAK = 3;
         }
     }
