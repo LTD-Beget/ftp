@@ -6,7 +6,7 @@ import "ftp/proto/v1/structures.proto";
 import "google/api/annotations.proto";
 
 //Сервис для управления FTP-аккаунтами
-//Все методы принимают JWT в заголовке "Authotization: Bearer {JWT}"
+//Все методы принимают JWT в заголовке "Authorization: Bearer {JWT}"
 service FtpService {
     //Получение списка FTP-аккаунтов пользователя
     rpc findAll (FindAllRequest) returns (FindAllResponse) {
@@ -67,7 +67,11 @@ message CreateAccountRequest {
 }
 
 message AddAccountResponse {
-    structures.FtpAccount ftp_account = 1;
+    oneof result {
+        structures.FtpAccount ftp_account = 1;
+        Error error = 2;
+        PasswordError password_error = 3;
+    }
 }
 
 message RemoveAccountRequest {
@@ -99,7 +103,7 @@ message ChangePasswordRequest {
 message ChangePasswordResponse {
     oneof result {
         Success success = 1;
-        Error error = 2;
+        PasswordError error = 2;
     }
 
     message Success {
@@ -147,5 +151,19 @@ message SetSshAccessDisabledResponse {
 message Error {
     enum Code {
         INTERNAL_ERROR = 0;
+    }
+
+    string message = 1;
+}
+
+message PasswordError {
+    Code code = 1;
+    string message = 2;
+
+    enum Code {
+        INTERNAL_ERROR = 0;
+        TOO_SHORT_PASSWORD = 1;
+        INCORRECT_PASSWORD = 2;
+        TOO_WEAK_PASSWORD = 3;
     }
 }
