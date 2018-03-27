@@ -17,7 +17,7 @@ service FtpService {
     }
 
     //Создание нового FTP-аккаунта
-    rpc createAccount (CreateAccountRequest) returns (AddAccountResponse) {
+    rpc createAccount (CreateAccountRequest) returns (CreateAccountResponse) {
         option (google.api.http) = {
             post: "/v1/ftp/create"
             body: "*"
@@ -67,7 +67,7 @@ message CreateAccountRequest {
     string path = 3;
 }
 
-message AddAccountResponse {
+message CreateAccountResponse {
     oneof result {
         structures.FtpAccount ftp_account = 1;
         Error error = 2;
