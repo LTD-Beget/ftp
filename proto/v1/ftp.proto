@@ -16,6 +16,13 @@ service FtpService {
         };
     }
 
+    rpc findOne (FindOneRequest) returns (FindOneResponse) {
+        option (google.api.http) = {
+            post: "/v1/ftp/list/one"
+            body: "*"
+        };
+    }
+
     //Создание нового FTP-аккаунта
     rpc createAccount (CreateAccountRequest) returns (CreateAccountResponse) {
         option (google.api.http) = {
@@ -59,6 +66,38 @@ message FindAllRequest {
 
 message FindAllResponse {
     repeated structures.FtpAccount ftp_account = 1;
+}
+
+message FindOneRequest {
+    oneof SearchScope {
+        ById by_id = 1;
+        ByLogin by_login = 2;
+    }
+
+    message ById {
+        uint32 id = 1;
+    }
+
+    message ByLogin {
+        string login = 1;
+    }
+}
+
+message FindOneResponse {
+    oneof result {
+        structures.FtpAccount ftp_account = 1;
+        Error error = 2;
+    }
+
+    message Error {
+        Code code = 1;
+        string message = 2;
+
+        enum Code {
+            INTERNAL_ERROR = 0;
+            SEARCH_SCOPE_NOT_SET = 1;
+        }
+    }
 }
 
 message CreateAccountRequest {
