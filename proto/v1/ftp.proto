@@ -104,6 +104,7 @@ message CreateAccountRequest {
     string suffix = 1;
     string password = 2;
     string path = 3;
+    bool enable_ssh = 4;
 }
 
 message CreateAccountResponse {
@@ -126,6 +127,9 @@ message CreateAccountResponse {
             SUFFIX_TOO_LONG = 6;
             SUFFIX_INVALID = 7;
             PATH_INVALID = 8;
+            OUT_OF_LIMIT = 9;
+            PASSWORD_EMPTY = 10;
+            SSH_UNAVAILABLE = 11;
         }
     }
 }
