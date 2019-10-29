@@ -130,9 +130,7 @@ message CreateAccountResponse {
             OUT_OF_LIMIT = 9;
             PASSWORD_EMPTY = 10;
             SSH_UNAVAILABLE = 11;
-            PASSWORD_EQUALS_SUFFIX = 12;
-            PASSWORD_EQUALS_PREFIX = 13;
-            PASSWORD_EQUALS_USERNAME = 14;
+            INVALID_SEQUENCE_IN_PASSWORD = 12;
         }
     }
 }
@@ -184,9 +182,7 @@ message ChangePasswordResponse {
             PASSWORD_INCORRECT = 2;
             PASSWORD_TOO_WEAK = 3;
             PASSWORD_EMPTY = 4;
-            PASSWORD_EQUALS_SUFFIX = 5;
-            PASSWORD_EQUALS_PREFIX = 6;
-            PASSWORD_EQUALS_USERNAME = 7;
+            INVALID_SEQUENCE_IN_PASSWORD = 5;
         }
     }
 }
