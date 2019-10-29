@@ -130,6 +130,7 @@ message CreateAccountResponse {
             OUT_OF_LIMIT = 9;
             PASSWORD_EMPTY = 10;
             SSH_UNAVAILABLE = 11;
+            SAME_PASSWORD = 12;
         }
     }
 }
@@ -181,6 +182,7 @@ message ChangePasswordResponse {
             PASSWORD_INCORRECT = 2;
             PASSWORD_TOO_WEAK = 3;
             PASSWORD_EMPTY = 4;
+            SAME_PASSWORD = 12;
         }
     }
 }
