@@ -130,6 +130,7 @@ message CreateAccountResponse {
             OUT_OF_LIMIT = 9;
             PASSWORD_EMPTY = 10;
             SSH_UNAVAILABLE = 11;
+            INVALID_HOMEDIR = 12;
         }
     }
 }
