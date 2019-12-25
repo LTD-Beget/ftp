@@ -130,7 +130,8 @@ message CreateAccountResponse {
             OUT_OF_LIMIT = 9;
             PASSWORD_EMPTY = 10;
             SSH_UNAVAILABLE = 11;
-            INVALID_HOMEDIR = 12;
+            INVALID_SEQUENCE_IN_PASSWORD = 12;
+            INVALID_HOMEDIR = 13;
         }
     }
 }
@@ -182,6 +183,7 @@ message ChangePasswordResponse {
             PASSWORD_INCORRECT = 2;
             PASSWORD_TOO_WEAK = 3;
             PASSWORD_EMPTY = 4;
+            INVALID_SEQUENCE_IN_PASSWORD = 5;
         }
     }
 }
